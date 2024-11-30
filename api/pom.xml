@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>ru.kazan</groupId>
     <artifactId>currency-rate-api</artifactId>
@@ -17,6 +17,14 @@
         <java.version>17</java.version>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>kazan-dependencies</name>
+            <url>https://maven.pkg.github.com/LavrikPavlov/current-rate-service</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -25,10 +33,9 @@
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.0.0</version>
+            <version>6.1.0</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
@@ -45,13 +52,7 @@
             <version>2.2.15</version>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>kazan-dependencies</name>
-            <url>https://maven.pkg.github.com/LavrikPavlov/current-rate-service</url>
-        </repository>
-    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>
@@ -77,9 +78,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/currency-rate-service-api.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <output>${project.build.directory}/generated-sources/openapi</output>
+                            <output>${project.build.directory}/generated-sources/currency-rate</output>
                             <apiPackage>ru.kazan.api.generated</apiPackage>
                             <modelPackage>ru.kazan.api.generated.model</modelPackage>
                             <configOptions>

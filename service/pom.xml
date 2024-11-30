@@ -6,9 +6,8 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
-
 
     <groupId>ru.kazan</groupId>
     <artifactId>currency-rate-service</artifactId>
@@ -37,7 +36,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.18</version>
+            <version>1.18.26</version>
             <scope>provided</scope>
         </dependency>
 

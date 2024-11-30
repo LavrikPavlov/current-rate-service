@@ -18,7 +18,7 @@ on:
 
 jobs:
   build:
-    name: Build and Test
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -31,6 +31,12 @@ jobs:
           java-version: 17
           cache: maven
 
-      - name: Clean and Install
+      - name: Clean
         run: |
-          ./mvnw clean install || mvn clean install # Используем mvnw, если доступен, иначе mvn
+          ./mvnw clean
+      - name: Compile
+        run: | 
+          ./mvnw validate
+      - name: Install
+        run: |
+          ./mvnw install

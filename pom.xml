@@ -6,13 +6,13 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>ru.kazan</groupId>
     <artifactId>currency-rate-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <description>currency-rate</description>
-    <packaging>jar</packaging>
+    <packaging>pom </packaging>
 
     <properties>
         <java.version>17</java.version>
