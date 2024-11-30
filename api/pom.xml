@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>ru.kazan</groupId>
+    <artifactId>currency-rate-api</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>api</name>
+    <packaging>jar</packaging>
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>2.2.15</version> <!-- Используйте последнюю стабильную версию -->
+        </dependency>
+    </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>kazan-dependencies</name>
+            <url>https://maven.pkg.github.com/LavrikPavlov/current-rate-service</url>
+        </repository>
+    </distributionManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.6.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-api</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <output>${project.build.directory}/generated-sources/openapi</output>
+                            <apiPackage>ru.kazan.api.generated</apiPackage>
+                            <modelPackage>ru.kazan.api.generated.model</modelPackage>
+                            <configOptions>
+                                <interfaceOnly>true</interfaceOnly> <!-- Только интерфейсы -->
+                                <useJakartaEe>true</useJakartaEe> <!-- Для Jakarta вместо javax -->
+                                <generateSupportingFiles>false
+                                </generateSupportingFiles> <!-- Убираем вспомогательные файлы -->
+                                <useTags>true</useTags> <!-- Создавать интерфейсы по тегам -->
+                                <dateLibrary>java8</dateLibrary> <!-- Использовать DateTime API из Java 8 -->
+                                <generateModelTests>false
+                                </generateModelTests> <!-- Не генерировать тесты для моделей -->
+                                <generateApiTests>false</generateApiTests> <!-- Не генерировать тесты для API -->
+                                <useSpringController>false</useSpringController> <!-- Убираем Controller-реализацию -->
+                                <useDefaultApiImplementation>false
+                                </useDefaultApiImplementation> <!-- Убираем дефолтные реализации -->
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

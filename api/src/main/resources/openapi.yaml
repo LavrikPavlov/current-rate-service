@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  title: Rate API
+  version: 1.0.0
+paths:
+  /currency-rate/v1/hello:
+    get:
+      tags:
+        - Mock
+      summary: Возвращает приветствие и IP устройства
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloResponse'
+        '500':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    HelloResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Hello"
+        ip:
+          type: string
+          example: "192.168.1.1"
+
+    ErrorResponse:
+      type: object
+      description: Ошибка запроса
+      properties:
+        message:
+          type: string
+          example: Ошибка
+        code:
+          type: integer
+          example: 500
