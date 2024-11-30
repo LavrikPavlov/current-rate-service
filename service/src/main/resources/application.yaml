@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: currency-rate
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/currency-rate
+    username: postgres
+    password: postgres
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+

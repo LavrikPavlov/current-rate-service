@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - context: dev
+  - logicalFilePath: db/changelog/db.changelog-master.yaml
+  - include:
+      file: db/changelog/v.0.0.1_liquid/0_1_add_table_currencies.sql

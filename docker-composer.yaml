@@ -1,0 +1,18 @@
+version: '3'
+services:
+  postgresql:
+    container_name: db_postgres_currency_rate
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=currency-rate
+      - PGDATA=/data/postgres
+    restart: "no"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
