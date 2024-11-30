@@ -1,0 +1,40 @@
+name: Build-Test
+
+on:
+  push:
+    branches:
+      - developer
+      - main
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    branches:
+      - main
+      - developer
+  merge_group:
+    branches:
+      - developer
+      - main
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+
+      - name: Make Maven Wrapper executable
+        if: exists('./mvnw')
+        run: chmod +x ./mvnw
+
+      - name: Clean and Install
+        run: |
+          ./mvnw clean install || mvn clean install # Используем mvnw, если доступен, иначе mvn
