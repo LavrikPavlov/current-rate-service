@@ -42,7 +42,7 @@
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>2.2.15</version> <!-- Используйте последнюю стабильную версию -->
+            <version>2.2.15</version>
         </dependency>
     </dependencies>
     <distributionManagement>
@@ -83,18 +83,18 @@
                             <apiPackage>ru.kazan.api.generated</apiPackage>
                             <modelPackage>ru.kazan.api.generated.model</modelPackage>
                             <configOptions>
-                                <interfaceOnly>true</interfaceOnly> <!-- Только интерфейсы -->
-                                <useJakartaEe>true</useJakartaEe> <!-- Для Jakarta вместо javax -->
+                                <interfaceOnly>true</interfaceOnly>
+                                <useJakartaEe>true</useJakartaEe>
                                 <generateSupportingFiles>false
-                                </generateSupportingFiles> <!-- Убираем вспомогательные файлы -->
-                                <useTags>true</useTags> <!-- Создавать интерфейсы по тегам -->
-                                <dateLibrary>java8</dateLibrary> <!-- Использовать DateTime API из Java 8 -->
+                                </generateSupportingFiles>
+                                <useTags>true</useTags>
+                                <dateLibrary>java8</dateLibrary>
                                 <generateModelTests>false
-                                </generateModelTests> <!-- Не генерировать тесты для моделей -->
-                                <generateApiTests>false</generateApiTests> <!-- Не генерировать тесты для API -->
-                                <useSpringController>false</useSpringController> <!-- Убираем Controller-реализацию -->
+                                </generateModelTests>
+                                <generateApiTests>false</generateApiTests>
+                                <useSpringController>false</useSpringController>
                                 <useDefaultApiImplementation>false
-                                </useDefaultApiImplementation> <!-- Убираем дефолтные реализации -->
+                                </useDefaultApiImplementation>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                             </configOptions>
                         </configuration>
