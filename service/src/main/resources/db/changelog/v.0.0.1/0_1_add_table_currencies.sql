@@ -1,5 +1,5 @@
 --changeset kazan-mp:0_1_add_table_currencies.sql
-create table currency (
+create table if not exists currency (
                           id varchar(30) primary key not null,
                           num_code integer unique not null,
                           char_code varchar(3) unique not null,

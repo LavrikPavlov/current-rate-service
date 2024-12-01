@@ -23,6 +23,24 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
+    ValuteResponse:
+      type: object
+      properties:
+        ID:
+          type: string
+        NumCode:
+          type: integer
+        CharCode:
+          type: string
+        Nominal:
+          type: integer
+        Name:
+          type: string
+        Value:
+          type: number
+        Previous:
+          type: number
+
     HelloResponse:
       type: object
       properties:
