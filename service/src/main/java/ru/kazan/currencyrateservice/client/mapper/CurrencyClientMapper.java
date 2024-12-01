@@ -6,7 +6,7 @@ import ru.kazan.api.generated.model.ValuteResponse;
 import ru.kazan.currencyrateservice.domain.CurrencyEntity;
 
 @Mapper(componentModel = "spring")
-public interface CurrencyMapper {
+public interface CurrencyClientMapper {
 
     @Mapping(target = "id", source = "ID")
     CurrencyEntity map(ValuteResponse response);

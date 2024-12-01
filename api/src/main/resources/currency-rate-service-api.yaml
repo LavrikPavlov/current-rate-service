@@ -3,24 +3,74 @@ info:
   title: Rate API
   version: 1.0.0
 paths:
-  /currency-rate/v1/hello:
+  /currency-rate/v1/info/сurrency:
     get:
       tags:
-        - Mock
-      summary: Возвращает приветствие и IP устройства
+        - Currency transactions
+      summary: Получить информацию о валюте
+      parameters:
+        - in: header
+          name: request-id
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: main-currency
+          required: true
+          schema:
+            type: string
+            default: "RUB"
+        - in: query
+          name: currency
+          description: Код валюты
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Успешный ответ
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HelloResponse'
+                $ref: '#/components/schemas/CurrencyInfoResponse'
         '500':
           description: Ошибка
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+
+  /currency-rate/v1/info/сurrency/all:
+    get:
+      tags:
+        - Currency transactions
+      summary: Получить информацию о всех валютах
+      parameters:
+        - in: header
+          name: request-id
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: main-currency
+          required: true
+          schema:
+            type: string
+            default: "RUB"
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyAllInfoResponse'
+        '500':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
     ValuteResponse:
@@ -41,15 +91,42 @@ components:
         Previous:
           type: number
 
-    HelloResponse:
+    CurrencyInfoResponse:
       type: object
       properties:
-        message:
+        mainCurrency:
           type: string
-          example: "Hello"
-        ip:
+        currency:
+          $ref: "#/components/schemas/CurrencyInfo"
+
+    CurrencyAllInfoResponse:
+      type: object
+      properties:
+        mainCurrency:
           type: string
-          example: "192.168.1.1"
+        currency:
+          type: array
+          items:
+            $ref: "#/components/schemas/CurrencyInfo"
+
+    CurrencyInfo:
+      type: object
+      properties:
+        numCode:
+          type: integer
+          example: "643"
+        charCode:
+          type: string
+          example: "RUB"
+        value:
+          type: number
+          example: 1.00
+        name:
+          type: string
+          example: 1.00
+        lastUpdate:
+          type: string
+          format: date-time
 
     ErrorResponse:
       type: object
