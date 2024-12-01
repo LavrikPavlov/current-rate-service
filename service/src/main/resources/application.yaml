@@ -40,6 +40,6 @@ toggle:
   scheduler:
     updateCurrency:
       enable: true
-      cron: "* * */10 * * *"
+      cron: "*/30 * * * * *"
 
 
