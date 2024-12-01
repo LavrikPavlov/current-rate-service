@@ -23,10 +23,9 @@ spring:
         default_schema: ${spring.application.default_schema}
 
   liquibase:
-    change-log: db/changelog/db.changelog-master.yaml
     enabled: true
-    contexts: dev
     default_schema: ${spring.application.default_schema}
+    change-log: changelog/db.changelog-master.xml
 
 feign:
   clients:
