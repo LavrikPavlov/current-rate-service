@@ -31,12 +31,29 @@ jobs:
           java-version: 17
           cache: maven
 
+      - name: Setup Maven settings
+        run: |
+          mkdir -p ~/.m2
+          cp .github/settings/settings.xml ~/.m2/settings.xml
+          
+          sed -i "s/\${env.TOKEN}/${{ secrets.USER_TOKEN }}/g" ~/.m2/settings.xml
+          sed -i "s/\${env.LOGIN}/${{ secrets.USER_LOGIN }}/g" ~/.m2/settings.xml
+        env:
+          TOKEN: ${{ secrets.USER_TOKEN }}
+          LOGIN: ${{ secrets.USER_LOGIN }}
+
+      - name: Debug Environment Maven
+        run: |
+          cat ~/.m2/settings.xml
+
       - name: Clean
         run: |
           ./mvnw clean
+
       - name: Compile
         run: | 
           ./mvnw validate
+
       - name: Install
         run: |
           ./mvnw install

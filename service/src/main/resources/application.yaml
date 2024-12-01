@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: currency-rate
+    default_schema: currency_rate
+
+  cloud:
+    compatibility-verifier:
+      enabled: false
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/currency-rate}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_schema: ${spring.application.default_schema}
+
+  liquibase:
+    change-log: db/changelog/db.changelog-master.yaml
+    enabled: true
+    contexts: dev
+    default_schema: ${spring.application.default_schema}
+
+feign:
+  clients:
+    cbr:
+      url: https://www.cbr-xml-daily.ru
+      timeout: 1000
+      retry: 3
+      period: 5000
+
+toggle:
+  scheduler:
+    updateCurrency:
+      enable: true
+      cron: "*/10 * * * * *"
+
+
