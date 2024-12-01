@@ -12,4 +12,16 @@ public class CurrencyResponse {
     @JsonProperty("Valute")
     private Map<String, ValuteResponse> valute;
 
+    @JsonProperty("Date")
+    private String date;
+
+    @JsonProperty("PreviousDate")
+    private String previousDate;
+
+    @JsonProperty("PreviousURL")
+    private String previousUrl;
+
+    @JsonProperty("Timestamp")
+    private String timestamp;
+
 }
