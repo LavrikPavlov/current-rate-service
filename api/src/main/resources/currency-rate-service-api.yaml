@@ -1,0 +1,140 @@
+openapi: 3.0.1
+info:
+  title: Rate API
+  version: 1.0.0
+paths:
+  /currency-rate/v1/info/сurrency:
+    get:
+      tags:
+        - Currency transactions
+      summary: Получить информацию о валюте
+      parameters:
+        - in: header
+          name: request-id
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: main-currency
+          required: true
+          schema:
+            type: string
+            default: "RUB"
+        - in: query
+          name: currency
+          description: Код валюты
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyInfoResponse'
+        '500':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /currency-rate/v1/info/сurrency/all:
+    get:
+      tags:
+        - Currency transactions
+      summary: Получить информацию о всех валютах
+      parameters:
+        - in: header
+          name: request-id
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: main-currency
+          required: true
+          schema:
+            type: string
+            default: "RUB"
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyAllInfoResponse'
+        '500':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    ValuteResponse:
+      type: object
+      properties:
+        ID:
+          type: string
+        NumCode:
+          type: integer
+        CharCode:
+          type: string
+        Nominal:
+          type: integer
+        Name:
+          type: string
+        Value:
+          type: number
+        Previous:
+          type: number
+
+    CurrencyInfoResponse:
+      type: object
+      properties:
+        mainCurrency:
+          type: string
+        currency:
+          $ref: "#/components/schemas/CurrencyInfo"
+
+    CurrencyAllInfoResponse:
+      type: object
+      properties:
+        mainCurrency:
+          type: string
+        currency:
+          type: array
+          items:
+            $ref: "#/components/schemas/CurrencyInfo"
+
+    CurrencyInfo:
+      type: object
+      properties:
+        numCode:
+          type: integer
+          example: "643"
+        charCode:
+          type: string
+          example: "RUB"
+        value:
+          type: number
+          example: 1.00
+        name:
+          type: string
+          example: 1.00
+        lastUpdate:
+          type: string
+          format: date-time
+
+    ErrorResponse:
+      type: object
+      description: Ошибка запроса
+      properties:
+        message:
+          type: string
+          example: Ошибка
+        code:
+          type: integer
+          example: 500
