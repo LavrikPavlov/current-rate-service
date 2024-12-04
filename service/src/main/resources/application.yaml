@@ -25,7 +25,6 @@ spring:
   liquibase:
     enabled: true
     default_schema: ${spring.application.default_schema}
-    change-log: changelog/db.changelog-master.xml
 
 management:
   endpoints:

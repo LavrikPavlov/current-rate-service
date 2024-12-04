@@ -1,8 +1,9 @@
-version: '3'
+version: '3.8'
+
 services:
   postgresql:
-    container_name: db_postgres_currency_rate
-    image: postgres
+    container_name: db_currency_rate_service
+    image: postgres:latest
     ports:
       - "5432:5432"
     environment:
@@ -11,6 +12,9 @@ services:
       - POSTGRES_DB=currency-rate
       - PGDATA=/data/postgres
     restart: "no"
+    volumes:
+      - ./src/main/resources/init/db/init_create_schema.sql:/docker-entrypoint-initdb.d/init_create_schema.sql
+
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 30s

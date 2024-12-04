@@ -1,4 +1,4 @@
-FROM openjdk:17-ea-10-jdk-slim
+FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY build/libs/currency-rate-service-0.0.1.jar app.jar
-CMD ["java", "-jar", "app.jar"]
+COPY service/target/currency-rate-service-0.0.1-SNAPSHOT.jar /app/currency-rate-service.jar
+CMD ["sh", "-c", "exec java -jar currency-rate-service.jar"]
