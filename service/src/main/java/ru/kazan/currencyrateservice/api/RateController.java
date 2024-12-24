@@ -19,18 +19,16 @@ public class RateController implements CurrencyTransactionsApi {
     @Override
     public ResponseEntity<CurrencyAllInfoResponse> currencyRateV1InfoUrrencyAllGet(String requestId, String mainCurrency) {
         log.info("API /currency-rate/v1/info/сurrency/all вызвана успешно {}", requestId);
-        if (mainCurrency.equals("RUB")) {
-            return ResponseEntity.ok(currencyInfoService.getAllInfoCurrency(mainCurrency));
-        }
-        throw new IllegalArgumentException("Обработка валюты пока возможна только RUB");
+        return ResponseEntity.ok(currencyInfoService.getAllInfoCurrency(mainCurrency));
+
+        // throw new IllegalArgumentException("Обработка валюты пока возможна только RUB");
     }
 
     @Override
     public ResponseEntity<CurrencyInfoResponse> currencyRateV1InfoUrrencyGet(String requestId, String mainCurrency, String currency) {
         log.info("API /currency-rate/v1/info/сurrency вызвана успешно {}", requestId);
-        if (mainCurrency.equals("RUB")) {
-            return ResponseEntity.ok(currencyInfoService.getInfoCurrency(mainCurrency, currency));
-        }
-        throw new IllegalArgumentException("Обработка валюты пока возможна только RUB");
+        return ResponseEntity.ok(currencyInfoService.getInfoCurrency(mainCurrency, currency));
+
+        //throw new IllegalArgumentException("Обработка валюты пока возможна только RUB");
     }
 }
