@@ -132,9 +132,12 @@ components:
       type: object
       description: Ошибка запроса
       properties:
+        simple-message:
+          type: string
+          example: Простая ошибка
         message:
           type: string
-          example: Ошибка
+          example: Полная ошибка
         code:
           type: integer
           example: 500

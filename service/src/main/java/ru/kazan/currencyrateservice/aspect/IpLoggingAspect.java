@@ -32,8 +32,10 @@ public class IpLoggingAspect {
     @Around("controllerMethods()")
     public Object logIpAddress(ProceedingJoinPoint joinPoint) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
         if (Objects.nonNull(attributes))
             clientService.saveClient(attributes.getRequest());
+
         return joinPoint.proceed();
     }
 }

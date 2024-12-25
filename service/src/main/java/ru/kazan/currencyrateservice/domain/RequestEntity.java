@@ -22,6 +22,9 @@ public class RequestEntity {
     @Column(name = "request_body")
     private String requestBody;
 
+    @Column(name = "response_body")
+    private String responseBody;
+
     private LocalDateTime date;
 
     @ManyToOne

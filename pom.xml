@@ -19,8 +19,8 @@
     </properties>
 
     <modules>
-        <module>api</module>
         <module>service</module>
+        <module>container</module>
     </modules>
 
     <dependencyManagement>
