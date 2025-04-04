@@ -10,7 +10,7 @@
     </parent>
     <groupId>ru.kazan</groupId>
     <artifactId>currency-rate-api</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.6-SNAPSHOT</version>
     <name>api</name>
     <packaging>jar</packaging>
     <properties>
@@ -68,6 +68,35 @@
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/currency-rate-service-api.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <output>${project.build.directory}/generated-sources/currency-rate</output>
+                            <apiPackage>ru.kazan.api.generated</apiPackage>
+                            <modelPackage>ru.kazan.api.generated.model</modelPackage>
+                            <configOptions>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useJakartaEe>true</useJakartaEe>
+                                <generateSupportingFiles>false
+                                </generateSupportingFiles>
+                                <useTags>true</useTags>
+                                <dateLibrary>java8</dateLibrary>
+                                <generateModelTests>false
+                                </generateModelTests>
+                                <generateApiTests>false</generateApiTests>
+                                <useSpringController>false</useSpringController>
+                                <useDefaultApiImplementation>false
+                                </useDefaultApiImplementation>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-kafka</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/currency-rate-service-kafka.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.build.directory}/generated-sources/currency-rate</output>
                             <apiPackage>ru.kazan.api.generated</apiPackage>

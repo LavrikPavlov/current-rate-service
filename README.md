@@ -52,6 +52,9 @@ Currency Rate Service предоставляет API для получения �
    docker-compose up -d
    ```
 
+Kafka-UI: `localhost:9000` находиться по дефолтной ссылке.
+Топик создается автоматически.
+
 ***4. Миграции БД с помощью Liquibase***:
 
 Сервис БД, запущенный через docker-compose с использованием docker-compose,

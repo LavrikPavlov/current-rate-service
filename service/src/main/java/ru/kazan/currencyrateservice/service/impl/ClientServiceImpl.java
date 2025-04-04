@@ -1,27 +1,45 @@
 package ru.kazan.currencyrateservice.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import ru.kazan.api.generated.model.StatusEnum;
+import ru.kazan.api.generated.model.UserResultDto;
 import ru.kazan.currencyrateservice.domain.ClientEntity;
 import ru.kazan.currencyrateservice.domain.RequestEntity;
+import ru.kazan.currencyrateservice.domain.dto.KafkaMessageDto;
+import ru.kazan.currencyrateservice.domain.mapper.ClientEntityMapper;
 import ru.kazan.currencyrateservice.repository.ClientEntityRepository;
 import ru.kazan.currencyrateservice.service.ClientService;
+import ru.kazan.currencyrateservice.service.KafkaService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static ru.kazan.currencyrateservice.config.KafkaConfig.DEFAULT_KAFKA;
+import static ru.kazan.currencyrateservice.config.KafkaConfig.KAFKA_TOPIC_NAME_USER_REQUEST;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
+    @Value(value = "${toggle.scheduler.kafka.limit}")
+    private Integer limit;
+
     private final ClientEntityRepository clientEntityRepository;
+    private final ClientEntityMapper clientEntityMapper;
+    private final ObjectMapper objectMapper;
+    private final KafkaService kafkaService;
 
     private static final List<String> IP_HEADERS = List.of(
             "X-Forwarded-For",
@@ -61,6 +79,40 @@ public class ClientServiceImpl implements ClientService {
 
     }
 
+    @Override
+    public void sendUser() {
+        clientEntityRepository.findAllByStatusLimit(limit, StatusEnum.WAIT_SEND.getValue())
+                .parallelStream()
+                .peek(entity -> log.info("Отправка курса {}", entity.getIpAddress()))
+                .forEach(this::sendKafka);
+    }
+
+    @Override
+    public void processUser(UserResultDto dto) {
+        var user = clientEntityRepository.findById(dto.getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Пользователь не найден с id %s", dto.getId())
+                ));
+        if(Objects.equals(user.getStatus(), StatusEnum.SEND)) {
+            user.setIsProcessed(true);
+            user.setStatus(dto.getStatus());
+            clientEntityRepository.save(user);
+        }
+    }
+
+    private void sendKafka(ClientEntity client) {
+        var message = KafkaMessageDto.builder()
+                .message(getJson(clientEntityMapper.map(client)))
+                .messageKey(client.getId())
+                .sender(DEFAULT_KAFKA)
+                .topic(KAFKA_TOPIC_NAME_USER_REQUEST)
+                .build();
+        kafkaService.processMessage(message);
+        client.setStatus(StatusEnum.SEND);
+        client.setIsSent(true);
+        clientEntityRepository.save(client);
+    }
+
     private ClientEntity createClient(String ipAddress) {
         return ClientEntity.builder()
                 .id(UUID.randomUUID().toString().replace("-", ""))
@@ -68,6 +120,9 @@ public class ClientServiceImpl implements ClientService {
                 .firstDate(LocalDateTime.now())
                 .lastDate(LocalDateTime.now())
                 .requests(new ArrayList<>())
+                .isProcessed(false)
+                .isSent(false)
+                .status(StatusEnum.WAIT_SEND)
                 .build();
     }
 
@@ -115,6 +170,14 @@ public class ClientServiceImpl implements ClientService {
 
     private boolean check(String ip) {
         return Objects.nonNull(ip) && ip.contains(":") && ("0:0:0:0:0:0:0:1".equals(ip) || "::1".equals(ip));
+    }
+
+    private String getJson(Object obj) {
+        try {
+            return objectMapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException("Ошибка переобразования обьекта в json", e);
+        }
     }
 
 }
