@@ -1,0 +1,131 @@
+openapi: 3.0.1
+info:
+  title: Rate API
+  version: 1.0.0
+
+  ## private static String KAFKA_TOPIC_NAME_RATE_REQUEST = "current.rate.info.rq";
+  #    private static String KAFKA_TOPIC_NAME_RATE_RESPONSE = "current.rate.info.rs";
+  #
+  #    private static String KAFKA_TOPIC_NAME_USER_REQUEST = "current.rate.user.rq";
+  #    private static String KAFKA_TOPIC_NAME_USER_RESPONSE = "current.rate.user.rs";
+paths:
+  /current/rate/info/rq:
+    post:
+      tags:
+        - Информационные топики
+      description: "Топик для информации о валюте"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CurrencyInfoDto"
+      responses:
+        default:
+          description: stub
+
+  /current/rate/info/rs:
+    get:
+      tags:
+        - Информационные топики
+      description: "Топик для информации о валюте"
+      responses:
+        '200':
+          description: stub
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrencyResultDto"
+
+  /current/rate/user/rq:
+    post:
+      tags:
+        - Информационные топики
+      description: "Топик для информации о пользователе"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInfoDto"
+      responses:
+        default:
+          description: stub
+
+  /current/rate/user/rs:
+    get:
+      tags:
+        - Информационные топики
+      description: "Топик для информации о пользователе"
+      responses:
+        '200':
+          description: stub
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResultDto"
+
+components:
+  schemas:
+    CurrencyInfoDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "c656c3699f9f45dda5034838f409470f"
+        numCode:
+          type: integer
+          example: "643"
+        charCode:
+          type: string
+          example: "RUB"
+        lastUpdate:
+          type: string
+          format: date-time
+
+    UserInfoDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "c656c3699f9f45dda5034838f409470f"
+        ipAddress:
+          type: string
+          example: "192.168.123.132"
+        firstDate:
+          type: string
+          format: date time
+        lastDate:
+          type: string
+          format: date time
+
+    CurrencyResultDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "c656c3699f9f45dda5034838f409470f"
+        charCode:
+          type: string
+          example: "RUB"
+        status:
+          $ref: "#/components/schemas/StatusEnum"
+
+    UserResultDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "c656c3699f9f45dda5034838f409470f"
+        ipAddress:
+          type: string
+          example: "192.168.123.132"
+        status:
+          $ref: "#/components/schemas/StatusEnum"
+
+    StatusEnum:
+      description: "Статус ответа"
+      type: string
+      enum: [ERROR, WAIT_SEND, SEND, SUCCESS]
+
+
+
+

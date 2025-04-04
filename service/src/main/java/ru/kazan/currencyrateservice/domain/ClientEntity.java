@@ -2,6 +2,7 @@ package ru.kazan.currencyrateservice.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ru.kazan.api.generated.model.StatusEnum;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,6 +28,15 @@ public class ClientEntity {
 
     @Column(name = "last_date")
     private LocalDateTime lastDate;
+
+    @Column(name = "is_sent")
+    private Boolean isSent;
+
+    @Column(name = "is_processed")
+    private Boolean isProcessed;
+
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<RequestEntity> requests;

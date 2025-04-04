@@ -15,4 +15,10 @@ public interface CurrencyEntityRepository extends JpaRepository<CurrencyEntity, 
     List<CurrencyEntity> findByIdOrCharCodeIn(List<String> id, List<String> charCode);
 
     Optional<CurrencyEntity> findByCharCode(String charCode);
+
+    @Query(value = """
+            select * from {h-schema}currency c
+            where c.status = :status limit :limit for update skip locked
+            """, nativeQuery = true)
+    List<CurrencyEntity> findAllByStatusLimit(Integer limit, String status);
 }

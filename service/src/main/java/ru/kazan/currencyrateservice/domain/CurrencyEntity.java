@@ -1,10 +1,8 @@
 package ru.kazan.currencyrateservice.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+import ru.kazan.api.generated.model.StatusEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -34,6 +32,15 @@ public class CurrencyEntity {
     private BigDecimal value;
 
     private BigDecimal previous;
+
+    @Column(name = "is_sent")
+    private Boolean isSent;
+
+    @Column(name = "is_processed")
+    private Boolean isProcessed;
+
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
 
     @Column(name = "create_date")
     private LocalDateTime createDate;

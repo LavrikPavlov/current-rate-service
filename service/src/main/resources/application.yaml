@@ -26,6 +26,17 @@ spring:
     enabled: true
     default_schema: ${spring.application.default_schema}
 
+  kafka:
+    batch: 4999
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ${app.name}
+      auto-offset-reset: earliest
+      max-poll-records: 10
+    listener:
+      concurrency: 1
+      poll-timeout: 3000
+
 management:
   endpoints:
     web:
@@ -34,6 +45,9 @@ management:
   info:
     app:
       version: @project.version@
+
+app:
+  name: currency-rate
 
 feign:
   clients:
@@ -48,5 +62,9 @@ toggle:
     updateCurrency:
       enable: true
       cron: "*/30 * * * * *"
+    kafka:
+      enable: true
+      cron: "*/30 * * * * *"
+      limit: 4
 
 
