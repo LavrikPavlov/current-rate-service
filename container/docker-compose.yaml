@@ -60,8 +60,13 @@ services:
       kafka:
         condition: service_healthy
     volumes:
-      - ./src/main/resources/script:/scripts
-    command: [ "sh", "-c", "chmod +x /scripts/create-topic.sh && /scripts/create-topic.sh" ]
+      - ./src/main/resources/script:/scripts:ro
+    command: >
+      sh -c "
+          sed -i 's/\r$//' /scripts/create-topic.sh 2>/dev/null || true;
+          cp /scripts/create-topic.sh /tmp/create-topic.sh;
+          chmod +x /tmp/create-topic.sh;
+          /tmp/create-topic.sh"
     restart: on-failure
 
   kafdrop:

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "Create kafka topic for current service"
 
 until kafka-topics --bootstrap-server kafka:29092 --list; do
